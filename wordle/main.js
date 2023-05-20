@@ -1,7 +1,17 @@
 const realWord = 'dergi';
 let currentRow = 0;
+const answers = JSON.parse(localStorage.getItem('answers') || '[]');
 
 window.onload = function () {
+    applySavedData();
+
+    function applySavedData () {
+        answers.forEach(function (answer) {
+            checkWordStatus(answer);
+            goToNextRow();
+        });
+    }
+
     function checkLetter (letter, letterIndex, statusClass) {
         const rowElement = document.querySelectorAll('.wrapper table > tbody > tr')[currentRow];
 
@@ -45,6 +55,8 @@ window.onload = function () {
         const word = document.getElementById('guessTxt').value.trim().toLowerCase();
 
         if (event.code === 'Enter' && validateWord(word)) {
+            answers.push(word);
+            localStorage.setItem('answers', JSON.stringify(answers));
             checkWordStatus(word);
             goToNextRow();
         }
