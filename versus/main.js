@@ -131,7 +131,11 @@ window.onload = function () {
     function useSkill (key) {
         const skill = skills[key];
 
-        if (!skill || players[turn].mp < skill.cost) {
+        if (!skill) {
+            return;
+        }
+
+        if (players[turn].mp < skill.cost) {
             addLog(`<span class="player-name">Player ${turn + 1}</span> not enough mana`);
 
             return;
